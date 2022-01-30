@@ -1,0 +1,67 @@
+version: "3.5"
+services:
+  checkout_backend:
+    container_name: checkout_backend
+    build:
+      context: .
+      dockerfile: ./docker/checkout_backend/Dockerfile
+    command: ["npm", "--prefix", "packages/checkout_backend", "start"]
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./packages/checkout_backend:/pet-shop-micro-services/packages/checkout_backend
+  
+  items_backend:
+    container_name: items_backend
+    build:
+      context: .
+      dockerfile: ./docker/items_backend/Dockerfile
+    command: ["npm", "--prefix", "packages/items_backend", "start"]
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./packages/items_backend:/pet-shop-micro-services/packages/items_backend
+  
+  shared_frontend:
+    container_name: shared_frontend
+    build:
+      context: .
+      dockerfile: ./docker/shared_frontend/Dockerfile
+    command: ["npm", "--prefix", "packages/shared_frontend", "start"]
+    ports: 
+      - "3003:3003"
+    volumes:
+      - ./packages/shared_frontend:/pet-shop-micro-services/packages/shared_frontend
+  
+  checkout_frontend:
+    container_name: checkout_frontend
+    build:
+      context: .
+      dockerfile: ./docker/checkout_frontend/Dockerfile
+    command: ["npm", "--prefix", "packages/checkout_frontend", "start"]
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./packages/checkout_frontend:/pet-shop-micro-services/packages/checkout_frontend
+
+  items_frontend:
+    container_name: items_frontend
+    build:
+      context: .
+      dockerfile: ./docker/items_frontend/Dockerfile
+    command: ["npm", "--prefix", "packages/items_frontend", "start"]
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./packages/items_frontend:/pet-shop-micro-services/packages/items_frontend
+
+  frontend_gateway:
+    container_name: frontend_gateway
+    build:
+      context: .
+      dockerfile: ./docker/frontend_gateway/Dockerfile
+    command: ["npm", "--prefix", "packages/frontend_gateway", "start"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./packages/frontend_gateway:/pet-shop-micro-services/packages/frontend_gateway
